@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:weightSum="1">
+
+
+    <TextView
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="0"
+        android:id="@+id/update1Code"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginBottom="10dp"
+        android:layout_gravity="center"
+        android:gravity="center_vertical|center_horizontal"
+        android:background="@drawable/high_sign"
+        android:textStyle="bold"
+        android:textColor="@android:color/background_light" />
+
+    <TextView
+        android:id="@+id/foodName"
+        android:layout_width="210dp"
+        android:layout_height="wrap_content"
+        android:text="@+id/foodName"
+        android:textSize="20sp"
+        android:layout_gravity="center_vertical"
+        android:gravity="left|center_vertical"
+        android:paddingTop="2dp"
+        android:paddingBottom="2dp">
+    </TextView>
+
+    <TextView
+        android:layout_width="45dp"
+        android:layout_height="50dp"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="999.9"
+        android:id="@+id/CH"
+        android:layout_gravity="center"
+        android:elegantTextHeight="false"
+        android:gravity="center_vertical|center_horizontal"
+        android:textSize="16sp" />
+
+    <TextView
+        android:layout_width="45dp"
+        android:layout_height="50dp"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="999"
+        android:id="@+id/GI"
+        android:layout_gravity="center"
+        android:gravity="center_vertical|center_horizontal"
+        android:textSize="16sp" />
+
+</LinearLayout>

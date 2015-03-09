@@ -1,0 +1,16 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="50dp" android:id="@+id/fragment_filter"
+    android:tag="filter_tag"
+    tools:context="com.norbiupdate1.pokesmile.norbiupdate1.FilterFragment"
+    android:clickable="false"
+    android:focusableInTouchMode="false"
+    android:focusable="false">
+
+    <!-- TODO: Update blank fragment layout -->
+    <SearchView android:layout_width="match_parent" android:layout_height="50dp"
+        android:text="@string/hello_blank_fragment"
+        android:id="@+id/searchview"
+        android:baselineAligned="false" />
+
+</FrameLayout>

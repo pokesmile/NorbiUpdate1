@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Basics -->
+    <string name="app_name">Norbi Update1</string>
+
+    <!-- Navigation Drawer Menu Items -->
+    <string name="title_section1">Update1 Kódlista</string>
+    <string name="title_section2">Beállítások</string>
+    <string name="title_section3">Segítség</string>
+    <string name="title_section4">Kilépés</string>
+
+    <!-- Navigation Drawer Other Strings -->
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <!-- Global Menu Items -->
+    <string name="action_search">Keresés</string>
+    <string name="action_categories">Kategóriák</string>
+    <string name="action_order_by_code">Rendezés kód szerint</string>
+    <string name="action_order_by_name">Rendezés név szerint</string>
+    <string name="action_ordering">Rendezés</string>
+
+    <!-- Header Text Items -->
+    <string name="header_text_name">Étel neve</string>
+    <string name="header_text_ch">CH</string>
+    <string name="header_text_gi">GI</string>
+    <string name="header_text_options">Beállítások</string>
+    <string name="header_text_help">Segítség</string>
+
+    <!-- Other Strings -->
+    <string name="hello_world">Hello World!</string>
+    <string name="message_empty_layout_changes">Add an item above to get started.</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="help_text">Az új Update kódlista már nem napszak szerinti, hanem szénhidráttartalom és glikémiás index szerinti kódolást tartalmaz.\n\n
+        Update1-es kóddal rendelkeznek az Update1 termékek, melyek csökkentett szénhidráttartalmúak és hozzáadott cukrot nem tartalmaznak. Továbbá azok a termékek, melyek szénhidráttartalma 100 grammban 30 gramm alatti és glikémiás indexük sem haladja meg a 30-at.\n\n
+        Update2-es kódot kaptak azok a termékek, melyek szénhidráttartalma 100 grammban 30-50 g közötti és glikémiás indexük is szintén e között a két szám között alakul, vagy legalább valamelyik eset teljesül.\n\n
+        Update3-as kódot kaptak a 100 grammban 50 g feletti szénhidráttartalommal rendelkezők és 50-es glikémiás index feletti termékek vagy azok a termékek, amelyiknél valamelyik eset teljesül.</string>
+
+</resources>
