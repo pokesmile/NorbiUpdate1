@@ -22,21 +22,20 @@ import java.util.List;
  * Created by enorsza on 2015.02.02..
  */
 public class Menu1Fragment extends android.support.v4.app.ListFragment implements FilterFragment.OnFragmentInteractionListener, HeaderFragment.OnFragmentInteractionListener {
-    View rootView;
-
+    private final static String MyPreferences = "MyPrefs";
+    private final static String sortByPref = "SortBy";
+    private final static String sorting = "Sorting";
     private final int FILTER_FRAGMENT = R.layout.fragment_filter;
     private final int HEADER_FRAGMENT = R.layout.fragment_header;
     private final int LIST_FRAGMENT = R.layout.menu1_layout;
+    View rootView;
+    SharedPreferences.Editor editor;
     private MyArrayAdapter adapter;
     private MyCategorieArrayAdapter categorieAdapter;
     private Update1CodesDataSource datasource;
     private List<Update1Codes> values;
     private List<String> categories;
     private SharedPreferences sharedPreferences;
-    private final static String MyPreferences = "MyPrefs";
-    private final static String sortByPref = "SortBy";
-    private final static String sorting = "Sorting";
-    SharedPreferences.Editor editor;
     private FilterFragment filterFragment;
     private HeaderFragment headerFragment;
     private SearchView searchView;
@@ -93,7 +92,7 @@ public class Menu1Fragment extends android.support.v4.app.ListFragment implement
 
         if (getListAdapter() instanceof MyCategorieArrayAdapter) {
             Toast.makeText(getActivity().getApplicationContext(),
-                    categories.get(position).toString(), Toast.LENGTH_SHORT)
+                    categories.get(position), Toast.LENGTH_SHORT)
                     .show();
             if (categorieAdapter != null) {
 
@@ -113,13 +112,9 @@ public class Menu1Fragment extends android.support.v4.app.ListFragment implement
         datasource = new Update1CodesDataSource(getActivity());
         datasource.createPreFilledDatabase();
         datasource.open();
+//        datasource.createUpdate1Codes();
     }
 
-    private void setValues() {
-        Log.d("setValues", "function called");
-        values = datasource.getAllUpdate1Codes();
-        values = listSorting(values, sharedPreferences.getString(sortByPref, "name"), sharedPreferences.getBoolean(sorting, true));
-    }
 
     private List<Update1Codes> listSorting(final List<Update1Codes> update1Codes, final String sortBy, final boolean ascending) {
         Collections.sort(update1Codes, new Comparator<Update1Codes>() {
@@ -127,12 +122,12 @@ public class Menu1Fragment extends android.support.v4.app.ListFragment implement
             public int compare(Update1Codes lhs, Update1Codes rhs) {
                 Update1Codes code1 = lhs;
                 Update1Codes code2 = rhs;
-                if (sortBy == "name") {
+                if (sortBy.equals("name")) {
                     if (ascending)
                         return code1.getFoodName().compareToIgnoreCase(code2.getFoodName());
                     else
                         return code2.getFoodName().compareToIgnoreCase(code1.getFoodName());
-                } else if (sortBy == "code") {
+                } else if (sortBy.equals("code")) {
                     if (ascending) {
                         return code1.getUpdate1Code() - code2.getUpdate1Code();
                     } else if (!ascending) {
@@ -155,10 +150,14 @@ public class Menu1Fragment extends android.support.v4.app.ListFragment implement
     }
 
     public void adapterPrepare() {
+
+        values = datasource.getAllUpdate1Codes();
+        values = listSorting(values, sharedPreferences.getString(sortByPref, "name"), sharedPreferences.getBoolean(sorting, true));
         Log.d("adapterPrepare", "function called");
         adapter = new MyArrayAdapter(getActivity(), values);
         setAdapter(adapter);
         setListAdapter(adapter);
+        adapter.notifyDataSetChanged();
     }
 
     public void categoriesAdapterPrepare() {
@@ -177,10 +176,8 @@ public class Menu1Fragment extends android.support.v4.app.ListFragment implement
         editor.putString(sortByPref, by);
         editor.putBoolean(sorting, asc);
         editor.commit();
-        Log.d("setSorting", "searchString: null");
-        setValues();
         adapterPrepare();
-        adapter.notifyDataSetChanged();
+        Log.d("setSorting", "searchString: null");
     }
 
     public void setHeaderView(String which) {
@@ -193,7 +190,7 @@ public class Menu1Fragment extends android.support.v4.app.ListFragment implement
                 addItem(FILTER_FRAGMENT);
                 break;
             case "header":
-                if(mContainerView.getChildCount() > 0) {
+                if ((mContainerView != null) && (mContainerView.getChildCount() > 0)) {
                     removeItem(FILTER_FRAGMENT);
                 }else{
                     addItem(HEADER_FRAGMENT);

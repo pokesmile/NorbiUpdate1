@@ -4,7 +4,6 @@ package com.norbiupdate1.pokesmile.norbiupdate1;
  * Created by enorsza on 2015.02.02..
  */
 
-import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
@@ -17,6 +16,7 @@ public class Update1CodesDataSource {
     // Database fields
     private SQLiteDatabase database;
     private MySQLiteHelper dbHelper;
+    private HtmlParser parser;
     private String[] allColumns = { MySQLiteHelper.COLUMN_ID,
             MySQLiteHelper.COLUMN_FOODNAME,
             MySQLiteHelper.COLUMN_UPDATE1CODE,
@@ -26,10 +26,11 @@ public class Update1CodesDataSource {
 
     public Update1CodesDataSource(Context context) {
         dbHelper = new MySQLiteHelper(context);
+        parser = new HtmlParser(context, dbHelper);
     }
 
     public void open() throws SQLException {
-        database = dbHelper.getReadableDatabase();
+        database = dbHelper.getWritableDatabase();
     }
 
     public void close() {
@@ -40,22 +41,8 @@ public class Update1CodesDataSource {
         dbHelper.createDatabase();
     }
 
-    public Update1Codes createUpdate1Codes(String foodname, int update1code, double cH, int gI, String categorie) {
-        ContentValues values = new ContentValues();
-        values.put(MySQLiteHelper.COLUMN_FOODNAME, foodname);
-        values.put(MySQLiteHelper.COLUMN_UPDATE1CODE, update1code);
-        values.put(MySQLiteHelper.COLUMN_CH, cH);
-        values.put(MySQLiteHelper.COLUMN_GI, gI);
-        values.put(MySQLiteHelper.COLUMN_CATEGORIE, categorie);
-        long insertId = database.insert(MySQLiteHelper.TABLE_UPDATE1CODES, null,
-                values);
-        Cursor cursor = database.query(MySQLiteHelper.TABLE_UPDATE1CODES,
-                allColumns, MySQLiteHelper.COLUMN_ID + " = " + insertId, null,
-                null, null, null);
-        cursor.moveToFirst();
-        Update1Codes newUpdate1Code = cursorToUpdate1Code(cursor);
-        cursor.close();
-        return newUpdate1Code;
+    public void createUpdate1Codes() {
+        parser.copyDBFromResource();
     }
 
     public void deleteUpdate1Code(Update1Codes Update1Code) {
@@ -66,7 +53,7 @@ public class Update1CodesDataSource {
     }
 
     public List<Update1Codes> getAllUpdate1Codes() {
-        List<Update1Codes> Update1Codes = new ArrayList<Update1Codes>();
+        List<Update1Codes> Update1Codes = new ArrayList<>();
 
         Cursor cursor;
         cursor = database.query(MySQLiteHelper.TABLE_UPDATE1CODES,
@@ -85,10 +72,10 @@ public class Update1CodesDataSource {
 
     private Update1Codes cursorToUpdate1Code(Cursor cursor) {
         Update1Codes Update1Code = new Update1Codes();
-        Update1Code.setId(cursor.getLong(0));
+        Update1Code.setId(cursor.getInt(0));
         Update1Code.setFoodName(cursor.getString(1));
         Update1Code.setUpdate1Code(cursor.getInt(2));
-        Update1Code.setcH(cursor.getDouble(3));
+        Update1Code.setcH(cursor.getInt(3));
         Update1Code.setgI(cursor.getInt(4));
         Update1Code.setCategorie(cursor.getString(5));
         return Update1Code;

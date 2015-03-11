@@ -4,10 +4,10 @@ package com.norbiupdate1.pokesmile.norbiupdate1;
  * Created by enorsza on 2015.02.02..
  */
 public class Update1Codes {
-    private long id;
+    private int id;
     private int update1Code;
     private String foodName;
-    private double cH;
+    private int cH;
     private int gI;
     private String categorie;
 
@@ -19,7 +19,9 @@ public class Update1Codes {
 
     public long getId() { return id; }
 
-    public void setId(long id) { this.id = id; }
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public int getUpdate1Code() { return update1Code; }
 
@@ -32,6 +34,7 @@ public class Update1Codes {
     }
 
     public void setgI(int gI) {
+
         this.gI = gI;
     }
 
@@ -39,7 +42,7 @@ public class Update1Codes {
         return cH;
     }
 
-    public void setcH(double cH) {
+    public void setcH(int cH) {
         this.cH = cH;
     }
 
