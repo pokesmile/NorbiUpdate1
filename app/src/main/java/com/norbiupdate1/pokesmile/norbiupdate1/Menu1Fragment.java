@@ -113,6 +113,7 @@ public class Menu1Fragment extends android.support.v4.app.ListFragment implement
         datasource.createPreFilledDatabase();
         datasource.open();
 //        datasource.createUpdate1Codes();
+
     }
 
 
@@ -184,7 +185,7 @@ public class Menu1Fragment extends android.support.v4.app.ListFragment implement
 
         switch(which){
             case "list":
-                    addItem(LIST_FRAGMENT);
+                addItem(LIST_FRAGMENT);
                 break;
             case "filter":
                 addItem(FILTER_FRAGMENT);
@@ -208,7 +209,7 @@ public class Menu1Fragment extends android.support.v4.app.ListFragment implement
     }
 
     private void addItem(int frag){
-         newView = (ViewGroup) LayoutInflater.from(getActivity()).inflate(frag, mContainerView, false);
+        newView = (ViewGroup) LayoutInflater.from(getActivity()).inflate(frag, mContainerView, false);
 
         if(frag == LIST_FRAGMENT){
             dataSourcePrepare();

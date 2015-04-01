@@ -26,7 +26,7 @@ public class Update1CodesDataSource {
 
     public Update1CodesDataSource(Context context) {
         dbHelper = new MySQLiteHelper(context);
-        parser = new HtmlParser(context, dbHelper);
+        //parser = new HtmlParser(context, dbHelper);
     }
 
     public void open() throws SQLException {

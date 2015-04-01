@@ -57,35 +57,35 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         onCreate(daba);
     }
 
-    public void createDatabase(){
+    public void createDatabase() {
         boolean dbExists = DBExists();
 
-        if(!dbExists){
-            this.getWritableDatabase();
+        if (!dbExists) {
+//            this.getWritableDatabase();
             copyDBFromDatabase();
         } else {
             File file = new File(DATABASE_PATH + DATABASE_NAME);
             file.delete();
-            this.getWritableDatabase();
+//            this.getWritableDatabase();
             copyDBFromDatabase();
         }
     }
 
     @Override
     public synchronized void close() {
-        if(db != null) db.close();
+        if (db != null) db.close();
         super.close();
     }
 
-    private boolean DBExists(){
+    private boolean DBExists() {
         db = null;
 
-        try{
+        try {
             String databasePath = DATABASE_PATH + DATABASE_NAME;
             db = SQLiteDatabase.openDatabase(databasePath, null, SQLiteDatabase.OPEN_READWRITE);
             db.setLocale(Locale.getDefault());
             db.setVersion(1);
-        }catch (SQLiteException e){
+        } catch (SQLiteException e) {
             Log.e("SQLiteHelper", "database not found");
         }
 
