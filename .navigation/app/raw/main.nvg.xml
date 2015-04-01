@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<navigationModel
+    ns="http://schemas.android.com?import=com.android.tools.idea.editors.navigation.model.*">
+    <locations class="java.util.ArrayList">
+        <statePointEntry>
+            <state class="com.android.tools.idea.editors.navigation.model.ActivityState"
+                className="com.norbiupdate1.pokesmile.norbiupdate1.MainActivity" />
+            <point x="772" y="92" />
+        </statePointEntry>
+        <statePointEntry>
+            <state class="com.android.tools.idea.editors.navigation.model.MenuState"
+                className="com.norbiupdate1.pokesmile.norbiupdate1.MainActivity" />
+            <point x="2040" y="92" />
+        </statePointEntry>
+    </locations>
+</navigationModel>
