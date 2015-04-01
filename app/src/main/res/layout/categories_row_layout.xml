@@ -5,33 +5,25 @@
     android:weightSum="1">
 
 
-    <TextView
+    <ImageView
+        android:id="@+id/categorie_picture"
         android:layout_width="60dp"
         android:layout_height="60dp"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="0"
-        android:id="@+id/categorie_picture"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginRight="15dp"
-        android:layout_marginBottom="10dp"
         android:layout_gravity="center"
-        android:gravity="center_vertical|center_horizontal"
-        android:background="@drawable/low_sign"
-        android:textStyle="bold"
-        android:textColor="@android:color/background_light" />
+        android:layout_margin="10dp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/generalfood" />
 
     <TextView
         android:id="@+id/categorie_name"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="@+id/foodName"
-        android:textSize="20sp"
         android:layout_gravity="center_vertical"
         android:gravity="left|center_vertical"
-        android:paddingTop="2dp"
         android:paddingBottom="2dp"
-        android:paddingRight="10dp">
-    </TextView>
+        android:paddingRight="10dp"
+        android:paddingTop="2dp"
+        android:text="@+id/foodName"
+        android:textSize="20sp"></TextView>
 
 </LinearLayout>
