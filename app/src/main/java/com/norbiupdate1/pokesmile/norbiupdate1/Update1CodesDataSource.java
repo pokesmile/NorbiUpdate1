@@ -53,7 +53,7 @@ public class Update1CodesDataSource {
     }
 
     public List<Update1Codes> getAllUpdate1Codes() {
-        List<Update1Codes> Update1Codes = new ArrayList<>();
+        List<Update1Codes> update1Codes = new ArrayList<>();
 
         Cursor cursor;
         cursor = database.query(MySQLiteHelper.TABLE_UPDATE1CODES,
@@ -61,13 +61,31 @@ public class Update1CodesDataSource {
 
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
-            Update1Codes Update1Code = cursorToUpdate1Code(cursor);
-            Update1Codes.add(Update1Code);
+            Update1Codes update1Code = cursorToUpdate1Code(cursor);
+            update1Codes.add(update1Code);
             cursor.moveToNext();
         }
 
         cursor.close();
-        return Update1Codes;
+        return update1Codes;
+    }
+
+    public List<Update1Codes> getCodesInCategorie(String categorie) {
+        List<Update1Codes> update1Codes = new ArrayList<>();
+
+        Cursor cursor;
+        cursor = database.query(MySQLiteHelper.TABLE_UPDATE1CODES,
+                allColumns, null, null, null, null, null);
+
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()) {
+            Update1Codes update1Code = cursorToUpdate1Code(cursor);
+            if (update1Code.getCategorie().equals(categorie)) update1Codes.add(update1Code);
+            cursor.moveToNext();
+        }
+
+        cursor.close();
+        return update1Codes;
     }
 
     private Update1Codes cursorToUpdate1Code(Cursor cursor) {

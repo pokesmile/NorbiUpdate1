@@ -23,24 +23,30 @@ public class MainActivity extends FragmentActivity
         implements FilterFragment.OnFragmentInteractionListener, NavigationDrawerFragment.NavigationDrawerCallbacks,
         HeaderFragment.OnFragmentInteractionListener {
 
-    private NavigationDrawerFragment mNavigationDrawerFragment;
-
-    private CharSequence mTitle;
     private final static String MYPREFERENCES = "MyPrefs";
     private final static String SORTBYPREF = "SortBy";
     private final static String SORTING = "Sorting";
-
+    private static View orderingView;
+    private NavigationDrawerFragment mNavigationDrawerFragment;
+    private CharSequence mTitle;
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
     private android.support.v4.app.FragmentManager fragmentManager;
     private android.support.v4.app.Fragment objFragment;
     private Menu1Fragment menu1Fragment;
     private boolean isSearch = false;
-    private static View orderingView;
     private View filterView;
     private LinearLayout containerMain;
     private DrawerLayout.LayoutParams containerMainParams;
     private boolean inCategories = false;
+
+    private static int dpToPx(int dp) {
+        return (int) (dp * Resources.getSystem().getDisplayMetrics().density);
+    }
+
+    private static int pxToDp(int px) {
+        return (int) (px / Resources.getSystem().getDisplayMetrics().density);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +60,7 @@ public class MainActivity extends FragmentActivity
 
         setContentView(R.layout.activity_main);
         containerMain = new LinearLayout(this);
-        containerMain = (LinearLayout)findViewById(R.id.container_main);
+        containerMain = (LinearLayout) findViewById(R.id.container_main);
         containerMainParams = (DrawerLayout.LayoutParams) containerMain.getLayoutParams();
         orderingView = findViewById(R.id.action_ordering);
 
@@ -71,24 +77,24 @@ public class MainActivity extends FragmentActivity
     @Override
     public void onNavigationDrawerItemSelected(int position) {
 
-        if(orderingView == null) orderingView = findViewById(R.id.action_ordering);
-        if(filterView == null) filterView = findViewById(R.id.action_search);
+        if (orderingView == null) orderingView = findViewById(R.id.action_ordering);
+        if (filterView == null) filterView = findViewById(R.id.action_search);
         objFragment = null;
 
         switch (position) {
             case 0:
                 menu1Fragment = new Menu1Fragment();
-                if(orderingView != null) setOrderingViewVisibility(true);
-                if(filterView != null) filterView.setVisibility(View.VISIBLE);
-                if(containerMainParams != null) {
+                if (orderingView != null) setOrderingViewVisibility(true);
+                if (filterView != null) filterView.setVisibility(View.VISIBLE);
+                if (containerMainParams != null) {
                 }
                 fragmentManager.beginTransaction().replace(R.id.container_main, menu1Fragment).commit();
                 break;
             case 1:
                 objFragment = new Menu2Fragment();
                 menu1Fragment.setHeaderView("empty");
-                if(filterView != null) filterView.setVisibility(View.INVISIBLE);
-                if(containerMainParams != null) {
+                if (filterView != null) filterView.setVisibility(View.INVISIBLE);
+                if (containerMainParams != null) {
                     setContainerParams(0);
                 }
                 fragmentManager.beginTransaction()
@@ -98,8 +104,8 @@ public class MainActivity extends FragmentActivity
             case 2:
                 objFragment = new Menu3Fragment();
                 menu1Fragment.setHeaderView("empty");
-                if(filterView != null) filterView.setVisibility(View.INVISIBLE);
-                if(containerMainParams != null) {
+                if (filterView != null) filterView.setVisibility(View.INVISIBLE);
+                if (containerMainParams != null) {
                     setContainerParams(0);
                 }
                 fragmentManager.beginTransaction()
@@ -143,18 +149,16 @@ public class MainActivity extends FragmentActivity
             menu1Fragment.setHeaderView("header");
             menu1Fragment.filter(null);
             isSearch = false;
-        }
-        else if(inCategories == true){
+        } else if (inCategories == true) {
             menu1Fragment = null;
             menu1Fragment = new Menu1Fragment();
-            if(orderingView != null) setOrderingViewVisibility(true);
-            if(filterView != null) filterView.setVisibility(View.VISIBLE);
-            if(containerMainParams != null) {
+            if (orderingView != null) setOrderingViewVisibility(true);
+            if (filterView != null) filterView.setVisibility(View.VISIBLE);
+            if (containerMainParams != null) {
             }
             fragmentManager.beginTransaction().replace(R.id.container_main, menu1Fragment).commit();
             inCategories = false;
-        }
-        else {
+        } else {
             super.onBackPressed();
         }
     }
@@ -168,7 +172,6 @@ public class MainActivity extends FragmentActivity
         }
         return super.onCreateOptionsMenu(menu);
     }
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -223,9 +226,47 @@ public class MainActivity extends FragmentActivity
         this.isSearch = isSearch;
     }
 
+    private void checkSharedPreferences() {
+        Log.d("checkSharedPreferences", "function called, SORTBYPREF = " + sharedPreferences.getString(SORTBYPREF, null));
+        if (sharedPreferences.getString(SORTBYPREF, null) == null) {
+            editor.putString(SORTBYPREF, "name");
+            editor.putBoolean(SORTING, true);
+            editor.commit();
+        }
+    }
+
+    public void setContainerParams(int topMargin) {
+        containerMainParams.topMargin = dpToPx(topMargin);
+        containerMain.setLayoutParams(containerMainParams);
+
+    }
+
+    public void setOrderingViewVisibility(boolean onOff) {
+        if (orderingView == null) orderingView = findViewById(R.id.action_ordering);
+        if (onOff) orderingView.setVisibility(View.VISIBLE);
+        else orderingView.setVisibility(View.GONE);
+    }
+
+    public void setSearchViewVisibility(boolean onOff) {
+        if (filterView == null) filterView = findViewById(R.id.action_search);
+        if (onOff) filterView.setVisibility(View.VISIBLE);
+        else filterView.setVisibility(View.GONE);
+    }
+
+    public boolean isInCategories() {
+        return inCategories;
+    }
+
+    public void setInCategories(boolean inCategories) {
+        this.inCategories = inCategories;
+    }
+
     public static class PlaceholderFragment extends Fragment {
 
         private static final String ARG_SECTION_NUMBER = "section_number";
+
+        public PlaceholderFragment() {
+        }
 
         public static PlaceholderFragment newInstance(int sectionNumber) {
             PlaceholderFragment fragment = new PlaceholderFragment();
@@ -233,9 +274,6 @@ public class MainActivity extends FragmentActivity
             args.putInt(ARG_SECTION_NUMBER, sectionNumber);
             fragment.setArguments(args);
             return fragment;
-        }
-
-        public PlaceholderFragment() {
         }
 
         @Override
@@ -251,42 +289,5 @@ public class MainActivity extends FragmentActivity
             ((MainActivity) activity).onSectionAttached(
                     getArguments().getInt(ARG_SECTION_NUMBER));
         }
-    }
-
-    private void checkSharedPreferences() {
-        Log.d("checkSharedPreferences", "function called, SORTBYPREF = " + sharedPreferences.getString(SORTBYPREF, null));
-        if (sharedPreferences.getString(SORTBYPREF, null) == null) {
-            editor.putString(SORTBYPREF, "name");
-            editor.putBoolean(SORTING, true);
-            editor.commit();
-        }
-    }
-
-    public void setContainerParams(int topMargin){
-        containerMainParams.topMargin = dpToPx(topMargin);
-        containerMain.setLayoutParams(containerMainParams);
-
-    }
-
-    public void setOrderingViewVisibility(boolean onOff){
-        if(orderingView == null) orderingView = findViewById(R.id.action_ordering);
-        if(onOff) orderingView.setVisibility(View.VISIBLE);
-        else orderingView.setVisibility(View.GONE);
-    }
-
-    public void setSearchViewVisibility(boolean onOff){
-        if(filterView == null) filterView = findViewById(R.id.action_search);
-        if(onOff) filterView.setVisibility(View.VISIBLE);
-        else filterView.setVisibility(View.GONE);
-    }
-
-    private static int dpToPx(int dp)
-    {
-        return (int) (dp * Resources.getSystem().getDisplayMetrics().density);
-    }
-
-    private static int pxToDp(int px)
-    {
-        return (int) (px / Resources.getSystem().getDisplayMetrics().density);
     }
 }

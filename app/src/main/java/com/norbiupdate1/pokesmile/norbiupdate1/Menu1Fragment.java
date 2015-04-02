@@ -11,7 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.SearchView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -91,9 +90,11 @@ public class Menu1Fragment extends android.support.v4.app.ListFragment implement
     public void onListItemClick(ListView l, View v, int position, long id) {
 
         if (getListAdapter() instanceof MyCategorieArrayAdapter) {
-            Toast.makeText(getActivity().getApplicationContext(),
-                    categories.get(position), Toast.LENGTH_SHORT)
-                    .show();
+//            Toast.makeText(getActivity().getApplicationContext(),
+//                    categories.get(position), Toast.LENGTH_SHORT)
+//                    .show();
+            adapterPrepare(categories.get(position));
+//            ((MainActivity)getActivity()).setInCategories(false);
             if (categorieAdapter != null) {
 
             }
@@ -150,9 +151,10 @@ public class Menu1Fragment extends android.support.v4.app.ListFragment implement
         }
     }
 
-    public void adapterPrepare() {
+    public void adapterPrepare(String categorie) {
 
-        values = datasource.getAllUpdate1Codes();
+        if (categorie == null) values = datasource.getAllUpdate1Codes();
+        else values = datasource.getCodesInCategorie(categorie);
         values = listSorting(values, sharedPreferences.getString(sortByPref, "name"), sharedPreferences.getBoolean(sorting, true));
         Log.d("adapterPrepare", "function called");
         adapter = new MyArrayAdapter(getActivity(), values);
@@ -177,7 +179,7 @@ public class Menu1Fragment extends android.support.v4.app.ListFragment implement
         editor.putString(sortByPref, by);
         editor.putBoolean(sorting, asc);
         editor.commit();
-        adapterPrepare();
+        adapterPrepare(null);
         Log.d("setSorting", "searchString: null");
     }
 
