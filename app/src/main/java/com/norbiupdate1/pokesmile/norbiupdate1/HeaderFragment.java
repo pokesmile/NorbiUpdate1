@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 
 /**
@@ -63,6 +64,9 @@ public class HeaderFragment extends android.support.v4.app.Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        TextView foodNameTextView = (TextView)getActivity().findViewById(R.id.textView_FoodName);
+        foodNameTextView.setPadding(53, 0, (((MainActivity)getActivity()).getScreenSizeX()) - 590, 0);
+
         return inflater.inflate(R.layout.fragment_header, container, false);
     }
 

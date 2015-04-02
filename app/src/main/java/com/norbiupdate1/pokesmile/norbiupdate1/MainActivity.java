@@ -6,11 +6,13 @@ import android.app.Fragment;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
+import android.graphics.Point;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -39,6 +41,7 @@ public class MainActivity extends FragmentActivity
     private LinearLayout containerMain;
     private DrawerLayout.LayoutParams containerMainParams;
     private boolean inCategories = false;
+    private boolean inCategorieList = false;
 
     private static int dpToPx(int dp) {
         return (int) (dp * Resources.getSystem().getDisplayMetrics().density);
@@ -144,12 +147,12 @@ public class MainActivity extends FragmentActivity
 
     @Override
     public void onBackPressed() {
-        if (isSearch == true) {
+        if (isSearch) {
             setOrderingViewVisibility(true);
             menu1Fragment.setHeaderView("header");
             menu1Fragment.filter(null);
             isSearch = false;
-        } else if (inCategories == true) {
+        } else if (inCategories) {
             menu1Fragment = null;
             menu1Fragment = new Menu1Fragment();
             if (orderingView != null) setOrderingViewVisibility(true);
@@ -158,6 +161,10 @@ public class MainActivity extends FragmentActivity
             }
             fragmentManager.beginTransaction().replace(R.id.container_main, menu1Fragment).commit();
             inCategories = false;
+        }else if(inCategorieList){
+            menu1Fragment.categoriesAdapterPrepare();
+            fragmentManager.beginTransaction().replace(R.id.container_main, menu1Fragment).commit();
+            inCategories = true;
         } else {
             super.onBackPressed();
         }
@@ -203,7 +210,6 @@ public class MainActivity extends FragmentActivity
             if (isSearch == false) {
                 menu1Fragment.setHeaderView("filter");
                 setOrderingViewVisibility(false);
-
                 isSearch = true;
             } else if (isSearch == true) {
                 setOrderingViewVisibility(true);
@@ -289,5 +295,29 @@ public class MainActivity extends FragmentActivity
             ((MainActivity) activity).onSectionAttached(
                     getArguments().getInt(ARG_SECTION_NUMBER));
         }
+    }
+
+    public int getScreenSizeX(){
+
+        Display display = getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        return size.x;
+    }
+
+    public int getScreenSizeY(){
+
+        Display display = getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        return size.y;
+    }
+
+    public boolean isInCategorieList() {
+        return inCategorieList;
+    }
+
+    public void setInCategorieList(boolean inCategorieList) {
+        this.inCategorieList = inCategorieList;
     }
 }

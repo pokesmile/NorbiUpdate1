@@ -19,8 +19,8 @@
             android:id="@+id/textView_FoodName"
             android:layout_gravity="left|center_vertical"
             android:paddingLeft="53dp"
-            android:paddingRight="130dp"
-            android:textSize="20sp" />
+            android:textSize="20sp"
+            android:paddingRight="130dp" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -34,7 +34,7 @@
             android:paddingRight="10dp" />
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="@string/header_text_gi"

@@ -94,7 +94,9 @@ public class Menu1Fragment extends android.support.v4.app.ListFragment implement
 //                    categories.get(position), Toast.LENGTH_SHORT)
 //                    .show();
             adapterPrepare(categories.get(position));
-//            ((MainActivity)getActivity()).setInCategories(false);
+            setHeaderView("header");
+            ((MainActivity)getActivity()).setInCategories(false);
+            ((MainActivity)getActivity()).setInCategorieList(true);
             if (categorieAdapter != null) {
 
             }
@@ -195,12 +197,16 @@ public class Menu1Fragment extends android.support.v4.app.ListFragment implement
             case "header":
                 if ((mContainerView != null) && (mContainerView.getChildCount() > 0)) {
                     removeItem(FILTER_FRAGMENT);
+                    if(mContainerView.getChildCount() == 1)addItem(HEADER_FRAGMENT);
                 }else{
                     addItem(HEADER_FRAGMENT);
                 }
                 break;
             case "categories":
+//                Nem torli ki a headert ha elotte kereses tortent, mert csak a newView-t torli. Az meg az utoljara hozzaadott view, ami a kereses. Hivatkozni kell
+//                a header-re utana, hogy azt is tudjam torolni.
                 removeItem(1);
+                if ((mContainerView != null) && (mContainerView.getChildCount() > 0)) removeItem(HEADER_FRAGMENT);
                 break;
             case "empty":
                 removeItem(0);
