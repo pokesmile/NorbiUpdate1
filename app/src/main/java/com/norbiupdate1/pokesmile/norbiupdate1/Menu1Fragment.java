@@ -96,8 +96,9 @@ public class Menu1Fragment extends android.support.v4.app.ListFragment implement
             setSelectedCategorie(categories.get(position));
             adapterPrepare(getSelectedCategorie());
             setHeaderView("header");
-            ((MainActivity)getActivity()).setInCategories(false);
-            ((MainActivity)getActivity()).setInCategorieList(true);
+            ((MainActivity) getActivity()).setSearchViewVisibility(true);
+            ((MainActivity) getActivity()).setInCategories(false);
+            ((MainActivity) getActivity()).setInCategorieList(true);
             if (categorieAdapter != null) {
 
             }
@@ -197,7 +198,7 @@ public class Menu1Fragment extends android.support.v4.app.ListFragment implement
 
     public void setHeaderView(String which) {
 
-        switch(which){
+        switch (which) {
             case "list":
                 addItem(LIST_FRAGMENT);
                 break;
@@ -207,8 +208,8 @@ public class Menu1Fragment extends android.support.v4.app.ListFragment implement
             case "header":
                 if ((mContainerView != null) && (mContainerView.getChildCount() > 0)) {
                     removeItem(FILTER_FRAGMENT);
-                    if(mContainerView.getChildCount() == 1)addItem(HEADER_FRAGMENT);
-                }else{
+                    if (mContainerView.getChildCount() == 1) addItem(HEADER_FRAGMENT);
+                } else {
                     addItem(HEADER_FRAGMENT);
                 }
                 break;
@@ -216,7 +217,8 @@ public class Menu1Fragment extends android.support.v4.app.ListFragment implement
 //                Nem torli ki a headert ha elotte kereses tortent, mert csak a newView-t torli. Az meg az utoljara hozzaadott view, ami a kereses. Hivatkozni kell
 //                a header-re utana, hogy azt is tudjam torolni.
                 removeItem(1);
-                if ((mContainerView != null) && (mContainerView.getChildCount() > 0)) removeItem(HEADER_FRAGMENT);
+                if ((mContainerView != null) && (mContainerView.getChildCount() > 0))
+                    removeItem(HEADER_FRAGMENT);
                 break;
             case "empty":
                 removeItem(0);
@@ -226,16 +228,16 @@ public class Menu1Fragment extends android.support.v4.app.ListFragment implement
         }
     }
 
-    private void addItem(int frag){
+    private void addItem(int frag) {
         oldView = newView;
         newView = (ViewGroup) LayoutInflater.from(getActivity()).inflate(frag, mContainerView, false);
 
-        if(frag == LIST_FRAGMENT){
+        if (frag == LIST_FRAGMENT) {
             dataSourcePrepare();
             setSorting(sharedPreferences.getString(sortByPref, "name"), sharedPreferences.getBoolean(sorting, true), null, true);
             setCategories(sharedPreferences.getBoolean(sorting, true));
         }
-        if(frag == FILTER_FRAGMENT) {
+        if (frag == FILTER_FRAGMENT) {
             searchView = (SearchView) newView.findViewById(R.id.searchview);
 
             searchView.setOnCloseListener(new SearchView.OnCloseListener() {
@@ -272,29 +274,29 @@ public class Menu1Fragment extends android.support.v4.app.ListFragment implement
 
         mContainerView.addView(newView, 0);
 
-        if(searchView != null) {
+        if (searchView != null) {
             searchView.setFocusable(true);
             searchView.setIconified(false);
             searchView.requestFocus();
             searchView.requestFocusFromTouch();
-            if(frag == HEADER_FRAGMENT){
+            if (frag == HEADER_FRAGMENT) {
                 searchView.clearFocus();
             }
         }
         Log.d("addItem", String.valueOf(mContainerView.getChildCount()));
     }
 
-    private void removeItem(int frag){
+    private void removeItem(int frag) {
 
-        switch(frag){
+        switch (frag) {
             case HEADER_FRAGMENT:
                 mContainerView.removeView(newView);
                 break;
             case FILTER_FRAGMENT:
-                if(searchView != null) {
+                if (searchView != null) {
                     searchView.clearFocus();
                 }
-                if(mContainerView != null) {
+                if (mContainerView != null) {
                     mContainerView.removeView(newView);
                     ((MainActivity) getActivity()).setSearch(false);
                 }
@@ -302,7 +304,7 @@ public class Menu1Fragment extends android.support.v4.app.ListFragment implement
             case 1:
                 mContainerView.removeView(newView);
                 mContainerView.removeView(oldView);
-                if(searchView != null) {
+                if (searchView != null) {
                     searchView.clearFocus();
                 }
                 break;

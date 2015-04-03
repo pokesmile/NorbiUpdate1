@@ -39,29 +39,23 @@ public class NavigationDrawerFragment extends Fragment {
      * expands it. This shared preference tracks this.
      */
     private static final String PREF_USER_LEARNED_DRAWER = "navigation_drawer_learned";
-
+    private final static String MyPreferences = "MyPrefs";
+    private final static String sortByPref = "SortBy";
+    private final static String sorting = "Sorting";
     /**
      * A pointer to the current callbacks instance (the Activity).
      */
     private NavigationDrawerCallbacks mCallbacks;
-
     /**
      * Helper component that ties the action bar to the navigation drawer.
      */
     private ActionBarDrawerToggle mDrawerToggle;
-
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerListView;
     private View mFragmentContainerView;
-
     private int mCurrentSelectedPosition = 0;
     private boolean mFromSavedInstanceState;
     private boolean mUserLearnedDrawer;
-
-    private final static String MyPreferences = "MyPrefs";
-    private final static String sortByPref = "SortBy";
-    private final static String sorting = "Sorting";
-
     private SharedPreferences sharedPreferences;
 
     public NavigationDrawerFragment() {
@@ -244,7 +238,7 @@ public class NavigationDrawerFragment extends Fragment {
         // If the drawer is open, show the global app actions in the action bar. See also
         // showGlobalContextActionBar, which controls the top-left area of the action bar.
         if (mDrawerLayout != null && isDrawerOpen()) {
-            inflater.inflate(R.menu.global, menu);
+//            inflater.inflate(R.menu.global, menu);
             showGlobalContextActionBar();
         }
         super.onCreateOptionsMenu(menu, inflater);

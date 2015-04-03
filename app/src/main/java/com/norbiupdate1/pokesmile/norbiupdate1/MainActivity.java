@@ -103,6 +103,7 @@ public class MainActivity extends FragmentActivity
                 fragmentManager.beginTransaction()
                         .replace(R.id.container_main, objFragment)
                         .commit();
+                objFragment.setMenuVisibility(false);
                 break;
             case 2:
                 objFragment = new Menu3Fragment();
@@ -164,6 +165,7 @@ public class MainActivity extends FragmentActivity
         }else if(inCategorieList){
             menu1Fragment.categoriesAdapterPrepare();
             fragmentManager.beginTransaction().replace(R.id.container_main, menu1Fragment).commit();
+            setSearchViewVisibility(false);
             inCategories = true;
             inCategorieList = false;
         } else {
@@ -188,6 +190,7 @@ public class MainActivity extends FragmentActivity
         if (id == R.id.action_categories) {
             menu1Fragment.categoriesAdapterPrepare();
             fragmentManager.beginTransaction().replace(R.id.container_main, menu1Fragment).commit();
+            setSearchViewVisibility(false);
             inCategories = true;
             return true;
         }
@@ -257,13 +260,13 @@ public class MainActivity extends FragmentActivity
     public void setOrderingViewVisibility(boolean onOff) {
         if (orderingView == null) orderingView = findViewById(R.id.action_ordering);
         if (onOff) orderingView.setVisibility(View.VISIBLE);
-        else orderingView.setVisibility(View.GONE);
+        else orderingView.setVisibility(View.INVISIBLE);
     }
 
     public void setSearchViewVisibility(boolean onOff) {
         if (filterView == null) filterView = findViewById(R.id.action_search);
         if (onOff) filterView.setVisibility(View.VISIBLE);
-        else filterView.setVisibility(View.GONE);
+        else filterView.setVisibility(View.INVISIBLE);
     }
 
     public boolean isInCategories() {
