@@ -192,18 +192,24 @@ public class MainActivity extends FragmentActivity
             return true;
         }
         if (id == R.id.action_order_by_code) {
-            menu1Fragment.setSorting("code", true);
+            menu1Fragment.setSorting("code", true, null, true);
             return true;
         }
         if (id == R.id.action_order_by_name) {
-            menu1Fragment.setSorting("name", true);
+            menu1Fragment.setSorting("name", true, null, true);
             return true;
         }
         if (id == R.id.action_ordering) {
             checkSharedPreferences();
             boolean asc = sharedPreferences.getBoolean(SORTING, true);
             String by = sharedPreferences.getString(SORTBYPREF, "name");
-            menu1Fragment.setSorting(by, !asc);
+            if (inCategories) {
+                menu1Fragment.setSorting(by, !asc, null, false);
+            } else if (inCategorieList) {
+                menu1Fragment.setSorting(by, !asc, menu1Fragment.getSelectedCategorie(), true);
+            } else {
+                menu1Fragment.setSorting(by, !asc, null, true);
+            }
             return true;
         }
         if (id == R.id.action_search) {

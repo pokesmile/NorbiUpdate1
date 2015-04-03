@@ -33,6 +33,7 @@ public class Menu1Fragment extends android.support.v4.app.ListFragment implement
     private MyCategorieArrayAdapter categorieAdapter;
     private Update1CodesDataSource datasource;
     private List<Update1Codes> values;
+    private List<Update1Codes> catValues;
     private List<String> categories;
     private SharedPreferences sharedPreferences;
     private FilterFragment filterFragment;
@@ -41,6 +42,7 @@ public class Menu1Fragment extends android.support.v4.app.ListFragment implement
     private ViewGroup newView;
     private ViewGroup oldView;
     private ViewGroup mContainerView;
+    private String selectedCategorie;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -52,8 +54,8 @@ public class Menu1Fragment extends android.support.v4.app.ListFragment implement
         mContainerView = (ViewGroup) getActivity().findViewById(R.id.container_main);
 
         dataSourcePrepare();
-        setSorting(sharedPreferences.getString(sortByPref, "name"), sharedPreferences.getBoolean(sorting, true));
-        setCategories();
+        setSorting(sharedPreferences.getString(sortByPref, "name"), sharedPreferences.getBoolean(sorting, true), null, true);
+        setCategories(sharedPreferences.getBoolean(sorting, true));
         setHeaderView("header");
     }
 
@@ -91,10 +93,8 @@ public class Menu1Fragment extends android.support.v4.app.ListFragment implement
     public void onListItemClick(ListView l, View v, int position, long id) {
 
         if (getListAdapter() instanceof MyCategorieArrayAdapter) {
-//            Toast.makeText(getActivity().getApplicationContext(),
-//                    categories.get(position), Toast.LENGTH_SHORT)
-//                    .show();
-            adapterPrepare(categories.get(position));
+            setSelectedCategorie(categories.get(position));
+            adapterPrepare(getSelectedCategorie());
             setHeaderView("header");
             ((MainActivity)getActivity()).setInCategories(false);
             ((MainActivity)getActivity()).setInCategorieList(true);
@@ -146,21 +146,28 @@ public class Menu1Fragment extends android.support.v4.app.ListFragment implement
         return update1Codes;
     }
 
-    private void setCategories() {
+    private void setCategories(boolean ascending) {
         categories = new ArrayList<>();
         for (int i = 0; i < values.size(); i++) {
             if (!categories.contains(values.get(i).getCategorie()))
                 categories.add(values.get(i).getCategorie());
         }
+        if (ascending) Collections.sort(categories);
+        else Collections.sort(categories, Collections.reverseOrder());
     }
 
     public void adapterPrepare(String categorie) {
 
-        if (categorie == null) values = datasource.getAllUpdate1Codes();
-        else values = datasource.getCodesInCategorie(categorie);
-        values = listSorting(values, sharedPreferences.getString(sortByPref, "name"), sharedPreferences.getBoolean(sorting, true));
+        if (categorie == null) {
+            values = datasource.getAllUpdate1Codes();
+            values = listSorting(values, sharedPreferences.getString(sortByPref, "name"), sharedPreferences.getBoolean(sorting, true));
+            adapter = new MyArrayAdapter(getActivity(), values);
+        } else {
+            catValues = datasource.getCodesInCategorie(categorie);
+            catValues = listSorting(catValues, sharedPreferences.getString(sortByPref, "name"), sharedPreferences.getBoolean(sorting, true));
+            adapter = new MyArrayAdapter(getActivity(), catValues);
+        }
         Log.d("adapterPrepare", "function called");
-        adapter = new MyArrayAdapter(getActivity(), values);
         setAdapter(adapter);
         setListAdapter(adapter);
         adapter.notifyDataSetChanged();
@@ -168,21 +175,23 @@ public class Menu1Fragment extends android.support.v4.app.ListFragment implement
 
     public void categoriesAdapterPrepare() {
         Log.d("categoriesAdapterPre", "function called");
+        setCategories(sharedPreferences.getBoolean(sorting, true));
         setCategories(categories);
         categorieAdapter = new MyCategorieArrayAdapter(getActivity(), categories);
         setCategorieAdapter(categorieAdapter);
         setListAdapter(categorieAdapter);
         setHeaderView("categories");
-        ((MainActivity)getActivity()).setOrderingViewVisibility(false);
-        ((MainActivity)getActivity()).setSearchViewVisibility(false);
+//        ((MainActivity)getActivity()).setOrderingViewVisibility(false);
+//        ((MainActivity)getActivity()).setSearchViewVisibility(false);
         categorieAdapter.notifyDataSetChanged();
     }
 
-    public void setSorting(String by, boolean asc) {
+    public void setSorting(String by, boolean asc, String categorie, boolean isList) {
         editor.putString(sortByPref, by);
         editor.putBoolean(sorting, asc);
         editor.commit();
-        adapterPrepare(null);
+        if (isList) adapterPrepare(categorie);
+        else categoriesAdapterPrepare();
         Log.d("setSorting", "searchString: null");
     }
 
@@ -223,8 +232,8 @@ public class Menu1Fragment extends android.support.v4.app.ListFragment implement
 
         if(frag == LIST_FRAGMENT){
             dataSourcePrepare();
-            setSorting(sharedPreferences.getString(sortByPref, "name"), sharedPreferences.getBoolean(sorting, true));
-            setCategories();
+            setSorting(sharedPreferences.getString(sortByPref, "name"), sharedPreferences.getBoolean(sorting, true), null, true);
+            setCategories(sharedPreferences.getBoolean(sorting, true));
         }
         if(frag == FILTER_FRAGMENT) {
             searchView = (SearchView) newView.findViewById(R.id.searchview);
@@ -308,5 +317,13 @@ public class Menu1Fragment extends android.support.v4.app.ListFragment implement
     @Override
     public void onFragmentInteraction(Uri uri) {
 
+    }
+
+    public String getSelectedCategorie() {
+        return selectedCategorie;
+    }
+
+    public void setSelectedCategorie(String selectedCategorie) {
+        this.selectedCategorie = selectedCategorie;
     }
 }
