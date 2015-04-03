@@ -165,6 +165,7 @@ public class MainActivity extends FragmentActivity
             menu1Fragment.categoriesAdapterPrepare();
             fragmentManager.beginTransaction().replace(R.id.container_main, menu1Fragment).commit();
             inCategories = true;
+            inCategorieList = false;
         } else {
             super.onBackPressed();
         }
@@ -267,6 +268,30 @@ public class MainActivity extends FragmentActivity
         this.inCategories = inCategories;
     }
 
+    public int getScreenSizeX(){
+
+        Display display = getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        return size.x;
+    }
+
+    public int getScreenSizeY() {
+
+        Display display = getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        return size.y;
+    }
+
+    public boolean isInCategorieList() {
+        return inCategorieList;
+    }
+
+    public void setInCategorieList(boolean inCategorieList) {
+        this.inCategorieList = inCategorieList;
+    }
+
     public static class PlaceholderFragment extends Fragment {
 
         private static final String ARG_SECTION_NUMBER = "section_number";
@@ -295,29 +320,5 @@ public class MainActivity extends FragmentActivity
             ((MainActivity) activity).onSectionAttached(
                     getArguments().getInt(ARG_SECTION_NUMBER));
         }
-    }
-
-    public int getScreenSizeX(){
-
-        Display display = getWindowManager().getDefaultDisplay();
-        Point size = new Point();
-        display.getSize(size);
-        return size.x;
-    }
-
-    public int getScreenSizeY(){
-
-        Display display = getWindowManager().getDefaultDisplay();
-        Point size = new Point();
-        display.getSize(size);
-        return size.y;
-    }
-
-    public boolean isInCategorieList() {
-        return inCategorieList;
-    }
-
-    public void setInCategorieList(boolean inCategorieList) {
-        this.inCategorieList = inCategorieList;
     }
 }

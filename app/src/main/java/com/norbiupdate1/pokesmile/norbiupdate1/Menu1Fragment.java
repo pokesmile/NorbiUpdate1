@@ -39,6 +39,7 @@ public class Menu1Fragment extends android.support.v4.app.ListFragment implement
     private HeaderFragment headerFragment;
     private SearchView searchView;
     private ViewGroup newView;
+    private ViewGroup oldView;
     private ViewGroup mContainerView;
 
     @Override
@@ -217,6 +218,7 @@ public class Menu1Fragment extends android.support.v4.app.ListFragment implement
     }
 
     private void addItem(int frag){
+        oldView = newView;
         newView = (ViewGroup) LayoutInflater.from(getActivity()).inflate(frag, mContainerView, false);
 
         if(frag == LIST_FRAGMENT){
@@ -290,12 +292,9 @@ public class Menu1Fragment extends android.support.v4.app.ListFragment implement
                 break;
             case 1:
                 mContainerView.removeView(newView);
+                mContainerView.removeView(oldView);
                 if(searchView != null) {
                     searchView.clearFocus();
-                }
-                if(mContainerView.getChildCount() > 0){
-                    newView = (ViewGroup) mContainerView.getChildAt(mContainerView.getChildCount());
-                    mContainerView.removeView(newView);
                 }
                 break;
             case 0:
