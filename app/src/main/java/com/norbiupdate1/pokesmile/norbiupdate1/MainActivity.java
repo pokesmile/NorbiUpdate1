@@ -260,13 +260,13 @@ public class MainActivity extends FragmentActivity
     public void setOrderingViewVisibility(boolean onOff) {
         if (orderingView == null) orderingView = findViewById(R.id.action_ordering);
         if (onOff) orderingView.setVisibility(View.VISIBLE);
-        else orderingView.setVisibility(View.INVISIBLE);
+        else orderingView.setVisibility(View.GONE);
     }
 
     public void setSearchViewVisibility(boolean onOff) {
         if (filterView == null) filterView = findViewById(R.id.action_search);
         if (onOff) filterView.setVisibility(View.VISIBLE);
-        else filterView.setVisibility(View.INVISIBLE);
+        else filterView.setVisibility(View.GONE);
     }
 
     public boolean isInCategories() {
